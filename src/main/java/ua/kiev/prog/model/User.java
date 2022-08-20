@@ -16,6 +16,15 @@ public class User {
     private String email;
     private Boolean admin;
     private Boolean notified = false;
+    private int age;
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public User() {
     }

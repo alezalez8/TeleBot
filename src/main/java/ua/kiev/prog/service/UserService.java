@@ -17,7 +17,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public User findByChatId(long id) {
+    public User findByChatId(long id) {       // custom-ный запрос
         return userRepository.findByChatId(id);
     }
 
@@ -27,7 +27,7 @@ public class UserService {
     }
 
     @Transactional
-    public List<User> findNewUsers() {
+    public List<User> findNewUsers() {          // custom-ный запрос
         List<User> users = userRepository.findNewUsers();
 
         users.forEach((user) -> user.setNotified(true));

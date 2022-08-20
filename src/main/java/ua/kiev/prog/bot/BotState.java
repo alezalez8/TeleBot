@@ -58,6 +58,42 @@ public enum BotState {
         @Override
         public BotState nextState() {
             return next;
+
+        }
+    },
+
+    //------------------
+    EnterAge {
+        private BotState next;
+
+        @Override
+        public void enter(BotContext context) {
+            sendMessage(context, "Enter your age");
+        }
+
+        @Override
+        public void handleInput(BotContext context) {
+            String age = context.getInput();
+
+
+            if (Utils.isAgeValid(age)) {
+                if(Utils.isAgeMoreThanSixtinth(age)) {
+                    context.getUser().setEmail(context.getInput());
+                    next = EnterEmail;
+                }   else {
+                    sendMessage(context, "Your age is less than 16, you can't registration here");
+                    next = Start;
+                }
+
+            } else {
+                sendMessage(context, "Wrong age");
+                next = EnterAge;
+            }
+        }
+
+        @Override
+        public BotState nextState() {
+            return next;
         }
     },
 
@@ -72,6 +108,8 @@ public enum BotState {
             return Start;
         }
     };
+
+
 
     private static BotState[] states;
     private final boolean inputNeeded;
@@ -116,5 +154,6 @@ public enum BotState {
     }
 
     public abstract void enter(BotContext context);
+
     public abstract BotState nextState();
 }
