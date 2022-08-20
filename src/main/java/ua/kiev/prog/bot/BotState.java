@@ -13,11 +13,13 @@ public enum BotState {
 
         @Override
         public BotState nextState() {
-            return EnterPhone;
+            return EnterAge;
         }
     },
 
     EnterPhone {
+       private BotState next;
+
         @Override
         public void enter(BotContext context) {
             sendMessage(context, "Enter your phone number please:");
@@ -25,12 +27,19 @@ public enum BotState {
 
         @Override
         public void handleInput(BotContext context) {
-            context.getUser().setPhone(context.getInput());
+            String phone = context.getInput();
+            if (Utils.isPhoneValid(phone)) {
+                context.getUser().setPhone(context.getInput());
+                next = EnterEmail;
+            } else {
+                sendMessage(context, "Number of phone is wrong");
+                next = EnterPhone;
+            }
         }
 
         @Override
         public BotState nextState() {
-            return EnterEmail;
+            return next;
         }
     },
 
@@ -77,10 +86,10 @@ public enum BotState {
 
 
             if (Utils.isAgeValid(age)) {
-                if(Utils.isAgeMoreThanSixtinth(age)) {
+                if (Utils.isAgeMoreThanSixtinth(age)) {
                     context.getUser().setEmail(context.getInput());
-                    next = EnterEmail;
-                }   else {
+                    next = EnterPhone;
+                } else {
                     sendMessage(context, "Your age is less than 16, you can't registration here");
                     next = Start;
                 }
@@ -108,7 +117,6 @@ public enum BotState {
             return Start;
         }
     };
-
 
 
     private static BotState[] states;

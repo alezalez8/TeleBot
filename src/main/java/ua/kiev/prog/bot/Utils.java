@@ -18,5 +18,9 @@ public class Utils {
         return IntegerValidator.getInstance().isValid(age);
     }
 
+    public static boolean isPhoneValid(String phone) {
+        return IntegerValidator.getInstance().isValid(phone);
+    }
+
 
 }
