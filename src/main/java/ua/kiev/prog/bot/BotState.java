@@ -18,7 +18,7 @@ public enum BotState {
     },
 
     EnterPhone {
-       private BotState next;
+        private BotState next;
 
         @Override
         public void enter(BotContext context) {
